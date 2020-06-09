@@ -1,0 +1,25 @@
+{
+  "name": "diff-calc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gafetinov/frontend-project-lvl2.git"
+  },
+  "type": "module",
+  "keywords": [
+    "difference",
+    "json",
+    "yaml"
+  ],
+  "author": "gafetinov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gafetinov/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/gafetinov/frontend-project-lvl2#readme"
+}
