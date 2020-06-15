@@ -6,5 +6,6 @@ export default () => {
   const program = new Command();
   program.version('0.0.1', '-v, --version');
   program.description('Compares two configuration files and shows a difference.');
+  program.arguments('<filepath1> <filepath2>');
   program.parse(process.argv);
 };
