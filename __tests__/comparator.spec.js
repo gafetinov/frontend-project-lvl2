@@ -103,4 +103,7 @@ describe('compareFiles', () => {
     expect(compare('.yaml')).toBe(rightCompare);
     expect(compare('.yml')).toBe(rightCompare);
   });
+  test('should compare .ini files', () => {
+    expect(compare('.ini')).toBe(rightCompare);
+  });
 });
