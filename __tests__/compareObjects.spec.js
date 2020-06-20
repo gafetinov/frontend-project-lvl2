@@ -1,4 +1,4 @@
-import compareObjects from '../src/compareObjects.js';
+import { compareObjects } from '../src/comparator.js';
 
 
 const before = {
