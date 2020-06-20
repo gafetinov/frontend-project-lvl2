@@ -1,4 +1,4 @@
-import parser from '../src/parsers/fileParser.js';
+import parser from '../src/fileParser.js';
 
 describe('fileParser', () => {
   test('shouldn\'t compare files with unknown formats', () => {
