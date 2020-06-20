@@ -26,6 +26,6 @@ export const compareObjects = (a, b) => {
 };
 
 export const compareFiles = (a, b) => compareObjects(
-  parse(fs.readFileSync(a), path.extname(a)),
-  parse(fs.readFileSync(b), path.extname(b)),
+  parse(fs.readFileSync(a, 'utf-8'), path.extname(a)),
+  parse(fs.readFileSync(b, 'utf-8'), path.extname(b)),
 );
