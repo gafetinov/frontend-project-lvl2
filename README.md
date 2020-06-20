@@ -3,11 +3,11 @@ The program need to detect file differences.<br>
 Supported formats: json, yaml, ini.<br>
 
 ## Program examples
-###json
+### json
 [![asciicast](https://asciinema.org/a/9xfnqaZXYyrTxkkvCSV1izM4e.png)](https://asciinema.org/a/9xfnqaZXYyrTxkkvCSV1izM4e)
-###yaml
+### yaml
 [![asciicast](https://asciinema.org/a/1vgooRxjZTffeGOoAi7I5ZOz8.png)](https://asciinema.org/a/1vgooRxjZTffeGOoAi7I5ZOz8)
-###ini
+### ini
 [![asciicast](https://asciinema.org/a/1yNahwmcgdgOCFbddr7y2Bc0w.png)](https://asciinema.org/a/1yNahwmcgdgOCFbddr7y2Bc0w)
 
 ---
