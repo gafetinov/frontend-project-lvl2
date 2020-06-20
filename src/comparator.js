@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import parse from './fileParser';
+import parse from './fileParser.js';
 
 export const compareObjects = (a, b) => {
   const result = [];

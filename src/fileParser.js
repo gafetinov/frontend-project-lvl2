@@ -1,5 +1,5 @@
-import { safeLoad as parseYaml } from 'js-yaml';
-import { parse as parseIni } from 'ini';
+import yaml from 'js-yaml';
+import ini from 'ini';
 
 export default (fileContent, format) => {
   switch (format) {
@@ -7,9 +7,9 @@ export default (fileContent, format) => {
       return JSON.parse(fileContent);
     case '.yaml':
     case '.yml':
-      return parseYaml(fileContent);
+      return yaml.safeLoad(fileContent);
     case '.ini':
-      return parseIni(fileContent);
+      return ini.parse(fileContent);
     default:
       throw new Error(`Format "${format}" not supported`);
   }
