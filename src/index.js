@@ -1,6 +1,8 @@
+import path from 'path';
 import fs from 'fs';
 import commander from 'commander';
 import compareObjects from './compareObjects.js';
+import parse from './parsers/fileParser';
 
 const { Command } = commander;
 
@@ -12,9 +14,9 @@ const initProgram = (program) => {
     .option('-f, --format [type]', 'output format', 'json');
 };
 
-const compareFiles = (path1, path2) => compareObjects(
-  JSON.parse(fs.readFileSync(path1, 'utf-8')),
-  JSON.parse(fs.readFileSync(path2, 'utf-8')),
+const compareFiles = (a, b) => compareObjects(
+  parse(fs.readFileSync(a), path.extname(a)),
+  parse(fs.readFileSync(b), path.extname(b)),
 ).join('\n');
 
 export const cli = () => {
