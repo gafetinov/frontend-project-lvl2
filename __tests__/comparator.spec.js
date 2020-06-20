@@ -101,5 +101,6 @@ describe('compareFiles', () => {
   });
   test('should compare YAML files', () => {
     expect(compare('.yaml')).toBe(rightCompare);
+    expect(compare('.yml')).toBe(rightCompare);
   });
 });
