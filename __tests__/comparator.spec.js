@@ -92,8 +92,8 @@ describe('compareFiles', () => {
   ].join('\n');
 
   const compare = (format) => genDiff(
-    `${__dirname}/fixtures/before${format}`,
-    `${__dirname}/fixtures/after${format}`,
+    `${__dirname}/../__fixtures__/before${format}`,
+    `${__dirname}/../__fixtures__/after${format}`,
   );
 
   test('should compare JSON files', () => {
