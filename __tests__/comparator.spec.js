@@ -91,6 +91,44 @@ describe('compareFiles', () => {
     '+ verbose: true',
   ].join('\n');
 
+  const rightDeepCompare = [
+    '{',
+    '    common: {',
+    '      + follow: false',
+    '        setting1: Value 1',
+    '      - setting2: 200',
+    '      - setting3: true',
+    '      + setting3: {',
+    '            key: value',
+    '        }',
+    '        setting6: {',
+    '            key: value',
+    '          + ops: vops',
+    '        }',
+    '      + setting4: blah blah',
+    '      + setting5: {',
+    '            key5: value5',
+    '        }',
+    '    }',
+    '    group1: {',
+    '      + baz: bars',
+    '      - baz: bas',
+    '        foo: bar',
+    '      - nest: {',
+    '            key: value',
+    '        }',
+    '      + nest: str',
+    '    }',
+    '  - group2: {',
+    '        abc: 12345',
+    '    }',
+    '  + group3: {',
+    '        fee: 100500',
+    '    }',
+    '}',
+  ].join('\n');
+
+
   const compare = (format) => genDiff(
     `${__dirname}/../__fixtures__/before${format}`,
     `${__dirname}/../__fixtures__/after${format}`,
@@ -105,5 +143,8 @@ describe('compareFiles', () => {
   });
   test('should compare .ini files', () => {
     expect(compare('.ini')).toBe(rightCompare);
+  });
+  test('should compare compare deep files', () => {
+    expect(compare('-deep.json')).toBe(rightDeepCompare);
   });
 });
