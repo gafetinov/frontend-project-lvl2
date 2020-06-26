@@ -1,8 +1,9 @@
 import { compareFiles } from './comparator.js';
 import cliProgram from './cli-program.js';
+import stylish from './stylish.js';
 
 
-const genDiff = (a, b) => compareFiles(a, b).join('\n');
+const genDiff = (a, b) => stylish(compareFiles(a, b));
 
 export const cli = () => {
   const program = cliProgram();
