@@ -112,10 +112,16 @@ describe('compareObjects', () => {
       const compare = compareObjects(a, a);
       const rightCompare = {
         common: {
-          setting1: { value: 'Value 1', prev: 'Value 1', status: fieldStatuses.unmodified },
-          setting2: { value: 200, prev: 200, status: fieldStatuses.unmodified },
-          setting3: { value: true, prev: true, status: fieldStatuses.unmodified },
-          setting6: { key: { value: 'value', prev: 'value', status: fieldStatuses.unmodified } },
+          value: {
+            setting1: { value: 'Value 1', prev: 'Value 1', status: fieldStatuses.unmodified },
+            setting2: { value: 200, prev: 200, status: fieldStatuses.unmodified },
+            setting3: { value: true, prev: true, status: fieldStatuses.unmodified },
+            setting6: {
+              value: {
+                key: { value: 'value', prev: 'value', status: fieldStatuses.unmodified },
+              },
+            },
+          },
         },
         key: { value: 12, prev: 12, status: fieldStatuses.unmodified },
         arr: [
@@ -130,12 +136,16 @@ describe('compareObjects', () => {
       const compare = compareObjects(a, b);
       const rightCompare = {
         common: {
-          setting1: { value: 'Value 2', prev: 'Value 1', status: fieldStatuses.modified },
-          setting2: { value: 200, prev: 200, status: fieldStatuses.unmodified },
-          setting3: { value: true, prev: true, status: fieldStatuses.unmodified },
-          setting6: {
-            key: { value: 'value2', prev: 'value', status: fieldStatuses.modified },
-            follow: { value: { proxy: '8.8.8.8', num: 21 }, prev: undefined, status: fieldStatuses.added },
+          value: {
+            setting1: { value: 'Value 2', prev: 'Value 1', status: fieldStatuses.modified },
+            setting2: { value: 200, prev: 200, status: fieldStatuses.unmodified },
+            setting3: { value: true, prev: true, status: fieldStatuses.unmodified },
+            setting6: {
+              value: {
+                key: { value: 'value2', prev: 'value', status: fieldStatuses.modified },
+                follow: { value: { proxy: '8.8.8.8', num: 21 }, prev: undefined, status: fieldStatuses.added },
+              },
+            },
           },
         },
         key: { value: 12, prev: 12, status: fieldStatuses.unmodified },
@@ -207,7 +217,6 @@ describe('compareFiles', () => {
     const rightDeepCompare = [
       '{',
       '    common: {',
-      '      + follow: false',
       '        setting1: Value 1',
       '      - setting2: 200',
       '      - setting3: true',
@@ -218,14 +227,15 @@ describe('compareFiles', () => {
       '            key: value',
       '          + ops: vops',
       '        }',
+      '      + follow: false',
       '      + setting4: blah blah',
       '      + setting5: {',
       '            key5: value5',
       '        }',
       '    }',
       '    group1: {',
-      '      + baz: bars',
       '      - baz: bas',
+      '      + baz: bars',
       '        foo: bar',
       '      - nest: {',
       '            key: value',
@@ -240,6 +250,8 @@ describe('compareFiles', () => {
       '    }',
       '}',
     ].join('\n');
-    expect(compare('-deep.json')).toBe(rightDeepCompare);
+    const comp = compare('-deep.json');
+    console.log(comp);
+    expect(comp).toBe(rightDeepCompare);
   });
 });

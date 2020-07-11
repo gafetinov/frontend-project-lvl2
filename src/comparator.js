@@ -51,7 +51,7 @@ export const compareObjects = (a, b) => {
       compare[key] = range(Math.max(a[key].length, b[key].length))
         .map((i) => compareObjects(a[key][i], b[key][i]));
     } else if (typeKeyA === types.object) {
-      compare[key] = compareObjects(a[key], b[key]);
+      compare[key] = { value: compareObjects(a[key], b[key]) };
     }
   });
   return compare;
