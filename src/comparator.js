@@ -20,6 +20,8 @@ export const fieldStatuses = {
   modified: 1,
   unmodified: 2,
   deleted: 3,
+  iterable: 4,
+  deep: 5,
 };
 
 const createComparingField = (prev, current) => {
@@ -37,24 +39,22 @@ const createComparingField = (prev, current) => {
 };
 
 export const compareObjects = (a, b) => {
-  if (typeof a !== 'object' || typeof b !== 'object') {
+  const compare = {};
+  const [typeA, typeB] = [getType(a), getType(b)];
+  if (typeA === types.array && typeB === types.array) {
+    return {
+      value: range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
+      status: fieldStatuses.iterable,
+    };
+  }
+  if (typeA !== types.object || typeB !== types.object) {
     return createComparingField(a, b);
   }
-  const keys = [...Object.keys(a), ...Object.keys(b)];
-  const compare = {};
+  const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
   keys.forEach((key) => {
-    const typeKeyA = getType(a[key]);
-    const typeKeyB = getType(b[key]);
-    if (typeKeyA !== typeKeyB || typeKeyA === types.flat) {
-      compare[key] = createComparingField(a[key], b[key]);
-    } else if (typeKeyA === types.array) {
-      compare[key] = range(Math.max(a[key].length, b[key].length))
-        .map((i) => compareObjects(a[key][i], b[key][i]));
-    } else if (typeKeyA === types.object) {
-      compare[key] = { value: compareObjects(a[key], b[key]) };
-    }
+    compare[key] = compareObjects(a[key], b[key]);
   });
-  return compare;
+  return { value: compare, status: fieldStatuses.deep };
 };
 
 export const compareFiles = (a, b) => compareObjects(
