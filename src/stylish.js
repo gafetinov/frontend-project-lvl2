@@ -1,52 +1,66 @@
-import { fieldStatuses } from './comparator.js';
+import { fieldStatuses, getType, types } from './shared.js';
 
-const stylishFlatFieldLine = (key, field) => {
-  switch (field.status) {
-    case fieldStatuses.added:
-      return `  + ${key}: ${field.value}`;
-    case fieldStatuses.deleted:
-      return `  - ${key}: ${field.prev}`;
-    case fieldStatuses.modified:
-      return `  - ${key}: ${field.prev}\n  + ${key}: ${field.value}`;
-    case fieldStatuses.unmodified:
-    default:
-      return `    ${key}: ${field.value}`;
+
+const INDENT = 4;
+
+const toStringLines = (value, nestingLevel = 0, valueName = '') => {
+  const indent = ' '.repeat(nestingLevel * INDENT);
+  const head = `${indent}${valueName}${valueName ? ': ' : ''}`;
+  const type = getType(value);
+  if (type === types.array) {
+    const content = value.map((el) => toStringLines(el, nestingLevel + 1, ''));
+    const end = `${indent}]`;
+    return [`${head}[`, ...content, end];
   }
+  if (type === types.object) {
+    const content = Object.keys(value)
+      .map((key) => toStringLines(value[key], nestingLevel + 1, key));
+    const end = `${indent}}`;
+    return [`${head}{`, ...content, end];
+  }
+  return [`${head}${value}`];
 };
 
-const getObjectLines = (obj, name = '', indent = 4) => {
-  if (typeof obj !== 'object') {
-    return [`${' '.repeat(indent)}${name}: ${obj}`];
+const stylish = (compare, nestingLevel = 0, fieldName = '') => {
+  const { value, status } = compare;
+  const indent = ' '.repeat(nestingLevel * INDENT);
+  const head = `${indent}${fieldName}${fieldName ? ': ' : ''}`;
+  if (status === fieldStatuses.iterable) {
+    const content = value.map((el, i) => stylish(el, nestingLevel + 1, String(i))).join('\n');
+    const end = `${indent}]`;
+    return [`${head}[`, content, end].join('\n');
   }
-  const lines = [`${' '.repeat(indent - 4)}${name}: {`];
-  Object.keys(obj).forEach((key) => {
-    lines.push(...getObjectLines(obj[key], key, indent + 4));
-  });
-  lines.push(`${' '.repeat(indent)}}`);
-  return lines;
-};
-
-const stylish = (compare, indent = 4, head = '') => {
-  if (Object.keys(compare).length === 0) {
-    return '';
-  }
-  const lines = [`${' '.repeat(indent - 4)}${head}${head ? ': ' : ''}{`];
-  Object.keys(compare).forEach((key) => {
-    if (typeof compare[key].value === 'object') {
-      if (compare[key].status === fieldStatuses.added) {
-        lines.push(getObjectLines(compare[key].value, `  + ${key}`, indent).join('\n'));
-      } else if (compare[key].status === fieldStatuses.deleted) {
-        lines.push(getObjectLines(compare[key].prev, `  - ${key}`, indent).join('\n'));
-      } else {
-        lines.push(stylish(compare[key].value, indent + 4, key));
-      }
-    } else {
-      lines.push(' '.repeat(indent - 4) + stylishFlatFieldLine(key, compare[key])
-        .replace('\n', `\n${' '.repeat(indent - 4)}`));
+  if (status !== fieldStatuses.deep) {
+    const { prev } = compare;
+    if (status === fieldStatuses.unmodified) {
+      return toStringLines(value, 0, fieldName).map((line) => `${indent}${line}`).join('\n');
     }
-  });
-  lines.push(`${' '.repeat(indent - 4)}}`);
-  return lines.join('\n');
+    if (status === fieldStatuses.added) {
+      const lines = toStringLines(value, 0, fieldName);
+      const firstLine = `${indent.slice(0, -2)}+ ${lines[0]}`;
+      const nextLines = lines.slice(1).map((line) => `${indent}${line}`);
+      return [firstLine, ...nextLines].join('\n');
+    }
+    if (status === fieldStatuses.deleted) {
+      const lines = toStringLines(prev, 0, fieldName);
+      const firstLine = `${indent.slice(0, -2)}- ${lines[0]}`;
+      const nextLines = lines.slice(1).map((line) => `${indent}${line}`);
+      return [firstLine, ...nextLines].join('\n');
+    }
+    if (status === fieldStatuses.modified) {
+      const deletedLines = toStringLines(prev, 0, fieldName);
+      const deletedFirstLine = `${indent.slice(0, -2)}- ${deletedLines[0]}`;
+      const deleted = [deletedFirstLine, ...deletedLines.slice(1).map((line) => `${indent}${line}`)].join('\n');
+      const addedLines = toStringLines(value, 0, fieldName);
+      const addedFirstLine = `${indent.slice(0, -2)}+ ${addedLines[0]}`;
+      const added = [addedFirstLine, ...addedLines.slice(1).map((line) => `${indent}${line}`)].join('\n');
+      return [deleted, added].join('\n');
+    }
+  }
+  const keys = Object.keys(value);
+  const innerStylish = keys.map((key) => stylish(value[key], nestingLevel + 1, key));
+  const end = `${indent}}`;
+  return [`${head}{`, ...innerStylish, end].join('\n');
 };
 
 export default stylish;

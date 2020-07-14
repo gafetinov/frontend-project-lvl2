@@ -1,63 +1,52 @@
-import { fieldStatuses } from '../src/comparator.js';
+import { fieldStatuses } from '../src/shared.js';
 import stylish from '../src/stylish.js';
 
 describe('stylish', () => {
-  it('should gen string from comparing of two objects with nesting', () => {
+  it('should gen string from comparing', () => {
     const compare = {
-      common: {
-        value: {
-          setting: {
-            value: {
-              key: { value: 'value2', prev: 'value', status: fieldStatuses.modified },
-              follow: { value: true, prev: undefined, status: fieldStatuses.added },
+      value: {
+        arr: {
+          value: [
+            {
+              value: { count: { value: 21, prev: 32, status: fieldStatuses.modified } },
+              status: fieldStatuses.deep,
             },
-          },
+            { value: { num: 23 }, prev: 23, status: fieldStatuses.modified },
+            {
+              value: [
+                { value: 1, prev: 1, status: fieldStatuses.unmodified },
+                { value: 3, prev: 2, status: fieldStatuses.modified },
+                { value: 5, prev: undefined, status: fieldStatuses.added },
+              ],
+              status: fieldStatuses.iterable,
+            },
+          ],
+          status: fieldStatuses.iterable,
         },
       },
+      status: fieldStatuses.deep,
     };
     const correctStr = [
       '{',
-      '    common: {',
-      '        setting: {',
-      '          - key: value',
-      '          + key: value2',
-      '          + follow: true',
+      '    arr: [',
+      '        0: {',
+      '          - count: 32',
+      '          + count: 21',
       '        }',
-      '    }',
+      '      - 1: 23',
+      '      + 1: {',
+      '            num: 23',
+      '        }',
+      '        2: [',
+      '            0: 1',
+      '          - 1: 2',
+      '          + 1: 3',
+      '          + 2: 5',
+      '        ]',
+      '    ]',
       '}',
     ].join('\n');
     const style = stylish(compare);
-    expect(style).toEqual(correctStr);
-  });
-  it('should gen string from comparing objects with added objects', () => {
-    const compare = {
-      setting: {
-        value: {
-          key: { value: 'value2', prev: 'value', status: fieldStatuses.modified },
-          follow: {
-            value: {
-              proxy: '8.8.8.8', num: 21,
-            },
-            prev: undefined,
-            status: fieldStatuses.added,
-          },
-        },
-      },
-    };
-    const style = stylish(compare);
-    console.log(style);
-    const correctStr = [
-      '{',
-      '    setting: {',
-      '      - key: value',
-      '      + key: value2',
-      '      + follow: {',
-      '            proxy: 8.8.8.8',
-      '            num: 21',
-      '        }',
-      '    }',
-      '}',
-    ].join('\n');
     expect(style).toEqual(correctStr);
   });
 });
