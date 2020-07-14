@@ -2,27 +2,8 @@ import { range } from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parse from './fileParser.js';
+import { types, getType, fieldStatuses } from './shared.js';
 
-const types = {
-  flat: 'flat',
-  array: 'array',
-  object: 'object',
-};
-
-const getType = (a) => {
-  if (Array.isArray(a)) return types.array;
-  if (typeof a === 'object') return types.object;
-  return types.flat;
-};
-
-export const fieldStatuses = {
-  added: 0,
-  modified: 1,
-  unmodified: 2,
-  deleted: 3,
-  iterable: 4,
-  deep: 5,
-};
 
 const createComparingField = (prev, current) => {
   const comparingField = { value: current, prev };

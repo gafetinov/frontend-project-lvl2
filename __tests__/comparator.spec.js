@@ -1,5 +1,6 @@
 import genDiff from '../src/index.js';
-import { fieldStatuses, compareObjects } from '../src/comparator.js';
+import { compareObjects } from '../src/comparator.js';
+import { fieldStatuses } from '../src/shared.js';
 
 
 describe('compareObjects', () => {
@@ -317,7 +318,6 @@ describe('compareFiles', () => {
       '}',
     ].join('\n');
     const comp = compare('-deep.json');
-    console.log(comp);
     expect(comp).toBe(rightDeepCompare);
   });
 });
