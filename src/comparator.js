@@ -1,28 +1,44 @@
+import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parse from './fileParser.js';
+import { types, getType, fieldStatuses } from './shared.js';
+
+const isArrays = (...values) => values.every((value) => getType(value) === types.array);
+const isFlats = (...values) => values.every((value) => getType(value) === types.flat);
+const isDifferentTypes = (a, b) => getType(a) !== getType(b);
+const isComparable = (a, b) => isFlats(a, b) || isDifferentTypes(a, b);
+
+const createComparedField = (prev, current) => {
+  const comparingField = { value: current, prev };
+  if (prev === current) {
+    comparingField.status = fieldStatuses.unmodified;
+  } else if (prev === undefined) {
+    comparingField.status = fieldStatuses.added;
+  } else if (current === undefined) {
+    comparingField.status = fieldStatuses.deleted;
+  } else {
+    comparingField.status = fieldStatuses.modified;
+  }
+  return comparingField;
+};
 
 export const compareObjects = (a, b) => {
-  const result = [];
-  const usedKeys = [];
-  Object.keys(a).forEach((key) => {
-    if (Object.keys(b).indexOf(key) !== -1) {
-      if (a[key] !== b[key]) {
-        result.push(`- ${key}: ${a[key]}\n+ ${key}: ${b[key]}`);
-      } else {
-        result.push(`  ${key}: ${a[key]}`);
-      }
-    } else {
-      result.push(`- ${key}: ${a[key]}`);
-    }
-    usedKeys.push(key);
+  if (isArrays(a, b)) {
+    return {
+      value: _.range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
+      status: fieldStatuses.iterable,
+    };
+  }
+  if (isComparable(a, b)) {
+    return createComparedField(a, b);
+  }
+  const compare = {};
+  const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
+  keys.forEach((key) => {
+    compare[key] = compareObjects(a[key], b[key]);
   });
-  Object.keys(b).forEach((key) => {
-    if (!usedKeys.includes(key)) {
-      result.push(`+ ${key}: ${b[key]}`);
-    }
-  });
-  return result;
+  return { value: compare, status: fieldStatuses.deep };
 };
 
 export const compareFiles = (a, b) => compareObjects(
