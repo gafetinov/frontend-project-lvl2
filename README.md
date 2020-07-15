@@ -9,6 +9,8 @@ Supported formats: json, yaml, ini.<br>
 [![asciicast](https://asciinema.org/a/1vgooRxjZTffeGOoAi7I5ZOz8.png)](https://asciinema.org/a/1vgooRxjZTffeGOoAi7I5ZOz8)
 ### ini
 [![asciicast](https://asciinema.org/a/1yNahwmcgdgOCFbddr7y2Bc0w.png)](https://asciinema.org/a/1yNahwmcgdgOCFbddr7y2Bc0w)
+### Files with deep nesting
+[![asciicast](https://asciinema.org/a/XVI484Ag387QJUZglDbeeqfGj.png)](https://asciinema.org/a/XVI484Ag387QJUZglDbeeqfGj)
 
 ---
 [![Maintainability](https://api.codeclimate.com/v1/badges/86f5503276d518641586/maintainability)](https://codeclimate.com/github/gafetinov/frontend-project-lvl2/maintainability)
