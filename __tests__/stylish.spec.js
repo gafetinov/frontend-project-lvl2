@@ -5,6 +5,13 @@ describe('stylish', () => {
   it('should gen string from comparing', () => {
     const compare = {
       value: {
+        obj: {
+          value: {
+            deleted: { value: undefined, prev: 1, status: fieldStatuses.deleted },
+            added: { value: [1], prev: undefined, status: fieldStatuses.added },
+          },
+          status: fieldStatuses.deep,
+        },
         arr: {
           value: [
             {
@@ -28,6 +35,12 @@ describe('stylish', () => {
     };
     const correctStr = [
       '{',
+      '    obj: {',
+      '      - deleted: 1',
+      '      + added: [',
+      '            1',
+      '        ]',
+      '    }',
       '    arr: [',
       '        0: {',
       '          - count: 32',
