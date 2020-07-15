@@ -1,4 +1,4 @@
-import { range } from 'lodash';
+import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parse from './fileParser.js';
@@ -26,7 +26,7 @@ const createComparedField = (prev, current) => {
 export const compareObjects = (a, b) => {
   if (isArrays(a, b)) {
     return {
-      value: range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
+      value: _.range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
       status: fieldStatuses.iterable,
     };
   }
