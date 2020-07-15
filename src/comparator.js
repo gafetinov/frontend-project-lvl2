@@ -4,8 +4,12 @@ import path from 'path';
 import parse from './fileParser.js';
 import { types, getType, fieldStatuses } from './shared.js';
 
+const isArrays = (...values) => values.every((value) => getType(value) === types.array);
+const isFlats = (...values) => values.every((value) => getType(value) === types.flat);
+const isDifferentTypes = (a, b) => getType(a) !== getType(b);
+const isComparable = (a, b) => isFlats(a, b) || isDifferentTypes(a, b);
 
-const createComparingField = (prev, current) => {
+const createComparedField = (prev, current) => {
   const comparingField = { value: current, prev };
   if (prev === current) {
     comparingField.status = fieldStatuses.unmodified;
@@ -20,17 +24,16 @@ const createComparingField = (prev, current) => {
 };
 
 export const compareObjects = (a, b) => {
-  const compare = {};
-  const [typeA, typeB] = [getType(a), getType(b)];
-  if (typeA === types.array && typeB === types.array) {
+  if (isArrays(a, b)) {
     return {
       value: range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
       status: fieldStatuses.iterable,
     };
   }
-  if (typeA !== types.object || typeB !== types.object) {
-    return createComparingField(a, b);
+  if (isComparable(a, b)) {
+    return createComparedField(a, b);
   }
+  const compare = {};
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
   keys.forEach((key) => {
     compare[key] = compareObjects(a[key], b[key]);
