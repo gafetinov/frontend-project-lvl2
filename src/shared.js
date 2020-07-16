@@ -18,3 +18,8 @@ export const fieldStatuses = {
   iterable: 4,
   deep: 5,
 };
+
+export const outputFormats = {
+  stylish: 'stylish',
+  plain: 'plain',
+};
