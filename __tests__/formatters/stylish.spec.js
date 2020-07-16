@@ -1,5 +1,5 @@
-import { fieldStatuses } from '../src/shared.js';
-import stylish from '../src/formatters/stylish.js';
+import { fieldStatuses } from '../../src/shared.js';
+import stylish from '../../src/formatters/stylish.js';
 
 describe('stylish', () => {
   it('should gen string from comparing', () => {
