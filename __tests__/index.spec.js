@@ -13,7 +13,7 @@ describe('compareFiles', () => {
     '}',
   ].join('\n');
 
-  const genCompare = (fileNameEnd, outputFormat) => genDiff(
+  const genCompare = (fileNameEnd, outputFormat = outputFormats.stylish) => genDiff(
     `${__dirname}/../__fixtures__/before${fileNameEnd}`,
     `${__dirname}/../__fixtures__/after${fileNameEnd}`,
     outputFormat,
