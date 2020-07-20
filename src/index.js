@@ -10,6 +10,9 @@ const genDiff = (a, b, format) => {
   if (format === outputFormats.plain) {
     return plain(diff);
   }
+  if (format === outputFormats.json) {
+    return JSON.stringify(diff, null, '  ');
+  }
   return stylish(diff);
 };
 
