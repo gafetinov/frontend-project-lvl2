@@ -11,15 +11,16 @@ export const getType = (a) => {
 };
 
 export const fieldStatuses = {
-  added: 0,
-  modified: 1,
-  unmodified: 2,
-  deleted: 3,
-  iterable: 4,
-  deep: 5,
+  added: 'added',
+  modified: 'modified',
+  unmodified: 'unmodified',
+  deleted: 'deleted',
+  iterable: 'iterable',
+  deep: 'deep',
 };
 
 export const outputFormats = {
   stylish: 'stylish',
   plain: 'plain',
+  json: 'json',
 };
