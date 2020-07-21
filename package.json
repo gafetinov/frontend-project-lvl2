@@ -22,7 +22,12 @@
   "keywords": [
     "difference",
     "json",
-    "yaml"
+    "yaml",
+    "ini",
+    "stylish",
+    "plain",
+    "diff",
+    "compare"
   ],
   "author": "gafetinov",
   "license": "ISC",
