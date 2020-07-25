@@ -1,0 +1,12 @@
+{
+  "value": {
+    "property": {
+      "value": {
+        "obj": { "value": "flat", "prev": { "a": "a" }, "status": "modified" },
+        "arr": { "value": [1, 2], "prev": "flat", "status": "modified" }
+      },
+      "status": "deep"
+    }
+  },
+  "status": "deep"
+}
