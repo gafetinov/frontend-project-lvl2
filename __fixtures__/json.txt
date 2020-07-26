@@ -1,0 +1,27 @@
+{
+  "value": {
+    "host": {
+      "value": "hexlet.io",
+      "prev": "hexlet.io",
+      "status": "unmodified"
+    },
+    "timeout": {
+      "value": "20",
+      "prev": "50",
+      "status": "modified"
+    },
+    "proxy": {
+      "prev": "123.234.53.22",
+      "status": "deleted"
+    },
+    "follow": {
+      "prev": false,
+      "status": "deleted"
+    },
+    "verbose": {
+      "value": true,
+      "status": "added"
+    }
+  },
+  "status": "deep"
+}
