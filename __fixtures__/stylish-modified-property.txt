@@ -1,0 +1,7 @@
+{
+    obj: {
+      - setting1: true
+      + setting1: changed
+        setting2: unmodified
+    }
+}
