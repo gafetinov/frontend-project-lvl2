@@ -8,7 +8,7 @@ const toStringLines = (value, valueName = '', nestingLevel = 0) => {
   const head = `${indent}${valueName}${valueName ? ': ' : ''}`;
   const type = getType(value);
   if (type === types.array) {
-    const content = value.map((el) => toStringLines(el, '', nestingLevel + 1));
+    const content = value.flatMap((el) => toStringLines(el, '', nestingLevel + 1));
     const end = `${indent}]`;
     return [`${head}[`, ...content, end];
   }

@@ -1,65 +1,58 @@
-import { fieldStatuses } from '../../src/shared.js';
+import fs from 'fs';
 import stylish from '../../src/formatters/stylish.js';
 
+
 describe('stylish', () => {
-  it('should gen string from comparing', () => {
-    const compare = {
-      value: {
-        obj: {
-          value: {
-            deleted: { value: undefined, prev: 1, status: fieldStatuses.deleted },
-            added: { value: [1], prev: undefined, status: fieldStatuses.added },
-          },
-          status: fieldStatuses.deep,
-        },
-        arr: {
-          value: [
-            {
-              value: { count: { value: 21, prev: 32, status: fieldStatuses.modified } },
-              status: fieldStatuses.deep,
-            },
-            { value: { num: 23 }, prev: 23, status: fieldStatuses.modified },
-            {
-              value: [
-                { value: 1, prev: 1, status: fieldStatuses.unmodified },
-                { value: 3, prev: 2, status: fieldStatuses.modified },
-                { value: 5, prev: undefined, status: fieldStatuses.added },
-              ],
-              status: fieldStatuses.iterable,
-            },
-          ],
-          status: fieldStatuses.iterable,
-        },
-      },
-      status: fieldStatuses.deep,
-    };
-    const correctStr = [
-      '{',
-      '    obj: {',
-      '      - deleted: 1',
-      '      + added: [',
-      '            1',
-      '        ]',
-      '    }',
-      '    arr: [',
-      '        0: {',
-      '          - count: 32',
-      '          + count: 21',
-      '        }',
-      '      - 1: 23',
-      '      + 1: {',
-      '            num: 23',
-      '        }',
-      '        2: [',
-      '            0: 1',
-      '          - 1: 2',
-      '          + 1: 3',
-      '          + 2: 5',
-      '        ]',
-      '    ]',
-      '}',
-    ].join('\n');
-    const style = stylish(compare);
-    expect(style).toEqual(correctStr);
+  const getCompare = (caseName) => JSON.parse(fs.readFileSync(
+    `${__dirname}/../../__fixtures__/compare-${caseName}.json`,
+    'utf-8',
+  ));
+
+  const getStylishString = (caseName) => fs.readFileSync(
+    `${__dirname}/../../__fixtures__/stylish-${caseName}.txt`,
+    'utf-8',
+  );
+
+  const testCase = (caseName) => {
+    const compare = getCompare(caseName);
+    const expectedString = getStylishString(caseName);
+    expect(stylish(compare)).toEqual(expectedString);
+  };
+
+  it('should generate string with added property', () => {
+    testCase('added-property');
+  });
+
+  it('should generate string with deleted property', () => {
+    testCase('deleted-property');
+  });
+
+  it('should generate string with modified property', () => {
+    testCase('modified-property');
+  });
+
+  it('should generate string of compare of equals objects', () => {
+    testCase('equal-objects');
+  });
+
+  it('should generate string of compare of arrays', () => {
+    testCase('arrays');
+  });
+
+  it('should generate string of added complex value', () => {
+    testCase('added-complex-value');
+  });
+
+  it('should generate string of modified property with complex value', () => {
+    testCase('modified-property-with-complex-value');
+  });
+
+  it('should generate string with complex value in array', () => {
+    testCase('complex-value-in-array');
+  });
+
+  it('should generate string of compare of empty objects', () => {
+    const compare = { value: {}, status: 'deep' };
+    expect(stylish(compare)).toEqual('{\n}');
   });
 });

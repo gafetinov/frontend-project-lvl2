@@ -1,0 +1,13 @@
+{
+    property: {
+      - obj: {
+            a: a
+        }
+      + obj: flat
+      - arr: flat
+      + arr: [
+            1
+            2
+        ]
+    }
+}

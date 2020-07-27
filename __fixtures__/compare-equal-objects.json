@@ -1,0 +1,12 @@
+{
+  "value": {
+    "obj": {
+      "value": {
+        "setting1": { "value": true, "prev": true, "status": "unmodified" },
+        "setting2": { "value": "unmodified", "prev": "unmodified", "status": "unmodified" }
+      },
+      "status": "deep"
+    }
+  },
+  "status": "deep"
+}
