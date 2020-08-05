@@ -1,0 +1,15 @@
+Property 'obj.deleted' was removed
+Property 'obj.modified' was updated. From 'old' to 'new'
+Property 'obj.deletedArr' was removed
+Property 'obj.deletedObj' was removed
+Property 'obj.added' was added with value: true
+Property 'obj.addedArr' was added with value: [complex value]
+Property 'obj.addedObj' was added with value: [complex value]
+Property 'arr1[2].c' was updated. From 3 to 'c'
+Property 'arr1[2].d' was updated. From 4 to 'd'
+Property 'arr1[3][0]' was updated. From 3 to 9
+Property 'arr1[3][1]' was updated. From 4 to 16
+Property 'arr1[3][2]' was added with value: 25
+Property 'arr1[4]' was updated. From 'old-value' to 'updated-value'
+Property 'arr1[5]' was removed
+Property 'arr1[6]' was removed

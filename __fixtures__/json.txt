@@ -1,26 +1,159 @@
 {
   "value": {
-    "host": {
-      "value": "hexlet.io",
-      "prev": "hexlet.io",
-      "status": "unmodified"
+    "obj": {
+      "value": {
+        "deleted": {
+          "prev": 1,
+          "status": "deleted"
+        },
+        "modified": {
+          "value": "new",
+          "prev": "old",
+          "status": "modified"
+        },
+        "unmodifiedArr": {
+          "value": [
+            {
+              "value": 1,
+              "prev": 1,
+              "status": "unmodified"
+            },
+            {
+              "value": 2,
+              "prev": 2,
+              "status": "unmodified"
+            }
+          ],
+          "status": "iterable"
+        },
+        "deletedArr": {
+          "prev": [
+            3,
+            4
+          ],
+          "status": "deleted"
+        },
+        "deletedObj": {
+          "prev": {
+            "a": "a",
+            "b": "b"
+          },
+          "status": "deleted"
+        },
+        "unmodifiedObj": {
+          "value": {
+            "c": {
+              "value": "c",
+              "prev": "c",
+              "status": "unmodified"
+            }
+          },
+          "status": "deep"
+        },
+        "added": {
+          "value": true,
+          "status": "added"
+        },
+        "addedArr": {
+          "value": [
+            3,
+            4
+          ],
+          "status": "added"
+        },
+        "addedObj": {
+          "value": {
+            "f": "f"
+          },
+          "status": "added"
+        }
+      },
+      "status": "deep"
     },
-    "timeout": {
-      "value": "20",
-      "prev": "50",
-      "status": "modified"
-    },
-    "proxy": {
-      "prev": "123.234.53.22",
-      "status": "deleted"
-    },
-    "follow": {
-      "prev": false,
-      "status": "deleted"
-    },
-    "verbose": {
-      "value": true,
-      "status": "added"
+    "arr1": {
+      "value": [
+        {
+          "value": {
+            "a": {
+              "value": 1,
+              "prev": 1,
+              "status": "unmodified"
+            },
+            "b": {
+              "value": 2,
+              "prev": 2,
+              "status": "unmodified"
+            }
+          },
+          "status": "deep"
+        },
+        {
+          "value": [
+            {
+              "value": 1,
+              "prev": 1,
+              "status": "unmodified"
+            },
+            {
+              "value": 2,
+              "prev": 2,
+              "status": "unmodified"
+            }
+          ],
+          "status": "iterable"
+        },
+        {
+          "value": {
+            "c": {
+              "value": "c",
+              "prev": 3,
+              "status": "modified"
+            },
+            "d": {
+              "value": "d",
+              "prev": 4,
+              "status": "modified"
+            }
+          },
+          "status": "deep"
+        },
+        {
+          "value": [
+            {
+              "value": 9,
+              "prev": 3,
+              "status": "modified"
+            },
+            {
+              "value": 16,
+              "prev": 4,
+              "status": "modified"
+            },
+            {
+              "value": 25,
+              "status": "added"
+            }
+          ],
+          "status": "iterable"
+        },
+        {
+          "value": "updated-value",
+          "prev": "old-value",
+          "status": "modified"
+        },
+        {
+          "prev": {
+            "c": "a",
+            "d": "d"
+          },
+          "status": "deleted"
+        },
+        {
+          "prev": "for-delete",
+          "status": "deleted"
+        }
+      ],
+      "status": "iterable"
     }
   },
   "status": "deep"

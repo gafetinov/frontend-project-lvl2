@@ -9,45 +9,19 @@ describe('compareFiles', () => {
     outputFormat,
   );
 
-  describe('should compare files with different formats', () => {
-    const expectedJsonString = fs.readFileSync(
-      `${__dirname}/../__fixtures__/json.txt`,
+  it('should display with different formats', () => {
+    const getExpectedString = (format = 'json') => fs.readFileSync(
+      `${__dirname}/../__fixtures__/${format}.txt`,
       'utf-8',
     );
-
-    test('should compare JSON files', () => {
-      expect(genCompare('.json')).toBe(expectedJsonString);
-    });
-
-    test('should compare YAML files', () => {
-      expect(genCompare('.yaml')).toBe(expectedJsonString);
-      expect(genCompare('.yml')).toBe(expectedJsonString);
-    });
-
-    test('should compare .ini files', () => {
-      expect(genCompare('.ini')).toBe(expectedJsonString);
-    });
+    expect(genCompare('.json')).toBe(getExpectedString());
+    expect(genCompare('.json', outputFormats.stylish)).toBe(getExpectedString(outputFormats.stylish));
+    expect(genCompare('.json', outputFormats.plain)).toBe(getExpectedString(outputFormats.plain));
   });
 
-  describe('should be able to return output of different formats', () => {
-    test('should return stylish output', () => {
-      const expected = fs.readFileSync(
-        `${__dirname}/../__fixtures__/stylish.txt`,
-        'utf-8',
-      );
-      expect(genCompare('.json', outputFormats.stylish)).toEqual(expected);
-    });
-
-    test('should return plain output', () => {
-      const expected = fs.readFileSync(
-        `${__dirname}/../__fixtures__/plain.txt`,
-        'utf-8',
-      );
-      expect(genCompare('.json', outputFormats.plain)).toEqual(expected);
-    });
-
-    test('should throw an exception to an unknown output format', () => {
-      expect(() => genCompare('.json', 'unknown')).toThrow('Unknown format unknown');
-    });
+  it('should compare files of other formats', () => {
+    const expectedStr = "Property 'property' was updated. From 'old' to 'new'";
+    expect(genCompare('.yml', outputFormats.plain)).toBe(expectedStr);
+    expect(genCompare('.ini', outputFormats.plain)).toBe(expectedStr);
   });
 });

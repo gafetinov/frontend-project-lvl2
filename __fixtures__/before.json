@@ -1,6 +1,19 @@
 {
-  "host": "hexlet.io",
-  "timeout": "50",
-  "proxy": "123.234.53.22",
-  "follow": false
+  "obj": {
+    "deleted": 1,
+    "modified": "old",
+    "unmodifiedArr": [1, 2],
+    "deletedArr": [3, 4],
+    "deletedObj": { "a": "a", "b": "b" },
+    "unmodifiedObj": { "c": "c" }
+  },
+  "arr1": [
+    {"a": 1, "b": 2},
+    [1, 2],
+    { "c": 3, "d": 4 },
+    [3, 4],
+    "old-value",
+    { "c": "a", "d": "d" },
+    "for-delete"
+  ]
 }
