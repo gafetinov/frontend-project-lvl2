@@ -1,6 +1,0 @@
-{
-    obj: {
-        setting1: 1
-      - setting2: for-delete
-    }
-}
