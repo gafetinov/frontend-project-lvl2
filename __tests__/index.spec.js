@@ -9,14 +9,13 @@ describe('compareFiles', () => {
     outputFormat,
   );
 
+  const getFixturePath = (fileName) => `${__dirname}/../__fixtures__/${fileName}`;
+  const readFile = (fileName) => fs.readFileSync(getFixturePath(fileName), 'utf-8');
+
   it('should display with different formats', () => {
-    const getExpectedString = (format = 'json') => fs.readFileSync(
-      `${__dirname}/../__fixtures__/${format}.txt`,
-      'utf-8',
-    );
-    expect(genCompare('.json')).toBe(getExpectedString());
-    expect(genCompare('.json', outputFormats.stylish)).toBe(getExpectedString(outputFormats.stylish));
-    expect(genCompare('.json', outputFormats.plain)).toBe(getExpectedString(outputFormats.plain));
+    expect(genCompare('.json')).toBe(readFile('json.txt'));
+    expect(genCompare('.json', outputFormats.stylish)).toBe(readFile('stylish.txt'));
+    expect(genCompare('.json', outputFormats.plain)).toBe(readFile('plain.txt'));
   });
 
   it('should compare files of other formats', () => {
