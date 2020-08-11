@@ -1,15 +1,15 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-export default (fileContent, format) => {
+export default (string, format) => {
   switch (format) {
     case '.json':
-      return JSON.parse(fileContent);
+      return JSON.parse(string);
     case '.yaml':
     case '.yml':
-      return yaml.safeLoad(fileContent);
+      return yaml.safeLoad(string);
     case '.ini':
-      return ini.parse(fileContent);
+      return ini.parse(string);
     default:
       throw new Error(`Format "${format}" not supported`);
   }

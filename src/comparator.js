@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import parse from './fileParser.js';
+import parse from './parser.js';
 import { types, getType, fieldStatuses } from './shared.js';
 
 const isArrays = (...values) => values.every((value) => getType(value) === types.array);
