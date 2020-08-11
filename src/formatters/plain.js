@@ -33,12 +33,6 @@ const getCompareString = (path, compare) => {
 
 const plain = (compare, path = '') => {
   const { value, status } = compare;
-  if (status === fieldStatuses.iterable) {
-    return value
-      .map((element, i) => plain(element, `${path}[${i}]`))
-      .filter((x) => Boolean(x))
-      .join('\n');
-  }
   if (status !== fieldStatuses.deep) {
     return getCompareString(path, compare);
   }

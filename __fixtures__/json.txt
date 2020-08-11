@@ -13,18 +13,14 @@
         },
         "unmodifiedArr": {
           "value": [
-            {
-              "value": 1,
-              "prev": 1,
-              "status": "unmodified"
-            },
-            {
-              "value": 2,
-              "prev": 2,
-              "status": "unmodified"
-            }
+            1,
+            2
           ],
-          "status": "iterable"
+          "prev": [
+            1,
+            2
+          ],
+          "status": "unmodified"
         },
         "deletedArr": {
           "prev": [
@@ -50,6 +46,27 @@
           },
           "status": "deep"
         },
+        "modifiedObj": {
+          "value": {
+            "a": {
+              "value": 1,
+              "prev": true,
+              "status": "modified"
+            }
+          },
+          "status": "deep"
+        },
+        "modifiedArr": {
+          "value": [
+            1
+          ],
+          "prev": [
+            1,
+            true,
+            "str"
+          ],
+          "status": "modified"
+        },
         "added": {
           "value": true,
           "status": "added"
@@ -69,91 +86,6 @@
         }
       },
       "status": "deep"
-    },
-    "arr1": {
-      "value": [
-        {
-          "value": {
-            "a": {
-              "value": 1,
-              "prev": 1,
-              "status": "unmodified"
-            },
-            "b": {
-              "value": 2,
-              "prev": 2,
-              "status": "unmodified"
-            }
-          },
-          "status": "deep"
-        },
-        {
-          "value": [
-            {
-              "value": 1,
-              "prev": 1,
-              "status": "unmodified"
-            },
-            {
-              "value": 2,
-              "prev": 2,
-              "status": "unmodified"
-            }
-          ],
-          "status": "iterable"
-        },
-        {
-          "value": {
-            "c": {
-              "value": "c",
-              "prev": 3,
-              "status": "modified"
-            },
-            "d": {
-              "value": "d",
-              "prev": 4,
-              "status": "modified"
-            }
-          },
-          "status": "deep"
-        },
-        {
-          "value": [
-            {
-              "value": 9,
-              "prev": 3,
-              "status": "modified"
-            },
-            {
-              "value": 16,
-              "prev": 4,
-              "status": "modified"
-            },
-            {
-              "value": 25,
-              "status": "added"
-            }
-          ],
-          "status": "iterable"
-        },
-        {
-          "value": "updated-value",
-          "prev": "old-value",
-          "status": "modified"
-        },
-        {
-          "prev": {
-            "c": "a",
-            "d": "d"
-          },
-          "status": "deleted"
-        },
-        {
-          "prev": "for-delete",
-          "status": "deleted"
-        }
-      ],
-      "status": "iterable"
     }
   },
   "status": "deep"

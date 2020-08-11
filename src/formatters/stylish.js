@@ -8,9 +8,8 @@ const toStringLines = (value, valueName = '', nestingLevel = 0) => {
   const head = `${indent}${valueName}${valueName ? ': ' : ''}`;
   const type = getType(value);
   if (type === types.array) {
-    const content = value.flatMap((el) => toStringLines(el, '', nestingLevel + 1));
-    const end = `${indent}]`;
-    return [`${head}[`, ...content, end];
+    const content = value.join(', ');
+    return [`${head}[${content}]`];
   }
   if (type === types.object) {
     const content = Object.keys(value)
@@ -48,11 +47,6 @@ const stylish = (compare, nestingLevel = 0, fieldName = '') => {
   const { value, status } = compare;
   const indent = ' '.repeat(nestingLevel * INDENT);
   const head = `${indent}${fieldName}${fieldName ? ': ' : ''}`;
-  if (status === fieldStatuses.iterable) {
-    const content = value.map((el, i) => stylish(el, nestingLevel + 1, String(i))).join('\n');
-    const end = `${indent}]`;
-    return [`${head}[`, content, end].join('\n');
-  }
   if (status !== fieldStatuses.deep) {
     return getFieldCompare(fieldName, compare, indent);
   }

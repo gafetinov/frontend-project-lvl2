@@ -15,7 +15,6 @@ export const fieldStatuses = {
   modified: 'modified',
   unmodified: 'unmodified',
   deleted: 'deleted',
-  iterable: 'iterable',
   deep: 'deep',
 };
 

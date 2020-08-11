@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parse from './fileParser.js';
@@ -7,11 +6,17 @@ import { types, getType, fieldStatuses } from './shared.js';
 const isArrays = (...values) => values.every((value) => getType(value) === types.array);
 const isFlats = (...values) => values.every((value) => getType(value) === types.flat);
 const isDifferentTypes = (a, b) => getType(a) !== getType(b);
-const isComparable = (a, b) => isFlats(a, b) || isDifferentTypes(a, b);
+const isComparable = (a, b) => isFlats(a, b) || isArrays(a, b) || isDifferentTypes(a, b);
+const areArraysEqual = (a, b) => !a.some((el, i) => el !== b[i]);
+
+const isEqual = (a, b) => {
+  if (isArrays(a, b)) return areArraysEqual(a, b);
+  return a === b;
+};
 
 const createComparedField = (prev, current) => {
   const comparingField = { value: current, prev };
-  if (prev === current) {
+  if (isEqual(prev, current)) {
     comparingField.status = fieldStatuses.unmodified;
   } else if (prev === undefined) {
     comparingField.status = fieldStatuses.added;
@@ -24,12 +29,6 @@ const createComparedField = (prev, current) => {
 };
 
 export const compareObjects = (a, b) => {
-  if (isArrays(a, b)) {
-    return {
-      value: _.range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
-      status: fieldStatuses.iterable,
-    };
-  }
   if (isComparable(a, b)) {
     return createComparedField(a, b);
   }

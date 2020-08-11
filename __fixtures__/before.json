@@ -5,15 +5,8 @@
     "unmodifiedArr": [1, 2],
     "deletedArr": [3, 4],
     "deletedObj": { "a": "a", "b": "b" },
-    "unmodifiedObj": { "c": "c" }
-  },
-  "arr1": [
-    {"a": 1, "b": 2},
-    [1, 2],
-    { "c": 3, "d": 4 },
-    [3, 4],
-    "old-value",
-    { "c": "a", "d": "d" },
-    "for-delete"
-  ]
+    "unmodifiedObj": { "c": "c" },
+    "modifiedObj": { "a": true },
+    "modifiedArr": [1, true, "str"]
+  }
 }

@@ -3,14 +3,8 @@
       - deleted: 1
       - modified: old
       + modified: new
-        unmodifiedArr: [
-            0: 1
-            1: 2
-        ]
-      - deletedArr: [
-            3
-            4
-        ]
+        unmodifiedArr: [1, 2]
+      - deletedArr: [3, 4]
       - deletedObj: {
             a: a
             b: b
@@ -18,43 +12,16 @@
         unmodifiedObj: {
             c: c
         }
+        modifiedObj: {
+          - a: true
+          + a: 1
+        }
+      - modifiedArr: [1, true, str]
+      + modifiedArr: [1]
       + added: true
-      + addedArr: [
-            3
-            4
-        ]
+      + addedArr: [3, 4]
       + addedObj: {
             f: f
         }
     }
-    arr1: [
-        0: {
-            a: 1
-            b: 2
-        }
-        1: [
-            0: 1
-            1: 2
-        ]
-        2: {
-          - c: 3
-          + c: c
-          - d: 4
-          + d: d
-        }
-        3: [
-          - 0: 3
-          + 0: 9
-          - 1: 4
-          + 1: 16
-          + 2: 25
-        ]
-      - 4: old-value
-      + 4: updated-value
-      - 5: {
-            c: a
-            d: d
-        }
-      - 6: for-delete
-    ]
 }
