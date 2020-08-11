@@ -36,9 +36,9 @@ const plain = (compare, path = '') => {
   if (status !== fieldStatuses.deep) {
     return getCompareString(path, compare);
   }
-  const lines = Object.keys(value)
-    .map((key) => plain(value[key], `${path}${path ? '.' : ''}${key}`));
-  return lines.filter((x) => Boolean(x)).join('\n');
+  return Object.keys(value)
+    .map((key) => plain(value[key], `${path}${path ? '.' : ''}${key}`))
+    .filter((x) => Boolean(x)).join('\n');
 };
 
 export default plain;
