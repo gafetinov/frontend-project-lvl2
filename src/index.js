@@ -4,10 +4,14 @@ import compare from './comparator.js';
 import format from './formatters/index.js';
 import parse from './parser.js';
 
+const readFile = (filepath) => {
+  const fullPath = path.resolve(filepath, process.cwd());
+  return fs.readFileSync(fullPath, 'utf-8');
+};
 
 const genDiff = (a, b, formatName) => {
-  const data1 = parse(fs.readFileSync(path.resolve(a), 'utf-8'), path.extname(a));
-  const data2 = parse(fs.readFileSync(path.resolve(b), 'utf-8'), path.extname(b));
+  const data1 = parse(readFile(a), path.extname(a));
+  const data2 = parse(readFile(b), path.extname(b));
   const diff = compare(data1, data2);
   return format(diff, formatName);
 };
