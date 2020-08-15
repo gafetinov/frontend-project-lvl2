@@ -17,9 +17,3 @@ export const fieldStatuses = {
   deleted: 'deleted',
   deep: 'deep',
 };
-
-export const outputFormats = {
-  stylish: 'stylish',
-  plain: 'plain',
-  json: 'json',
-};

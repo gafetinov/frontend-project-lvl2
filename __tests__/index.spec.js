@@ -1,6 +1,6 @@
 import fs from 'fs';
 import genDiff from '../src';
-import { outputFormats } from '../src/shared.js';
+
 
 describe('compareFiles', () => {
   const genCompare = (fileNameEnd, outputFormat) => genDiff(
@@ -14,13 +14,13 @@ describe('compareFiles', () => {
 
   it('should display with different formats', () => {
     expect(genCompare('.json')).toBe(readFile('json.txt'));
-    expect(genCompare('.json', outputFormats.stylish)).toBe(readFile('stylish.txt'));
-    expect(genCompare('.json', outputFormats.plain)).toBe(readFile('plain.txt'));
+    expect(genCompare('.json', 'stylish')).toBe(readFile('stylish.txt'));
+    expect(genCompare('.json', 'plain')).toBe(readFile('plain.txt'));
   });
 
   it('should compare files of other formats', () => {
     const expectedStr = "Property 'property' was updated. From 'old' to 'new'";
-    expect(genCompare('.yml', outputFormats.plain)).toBe(expectedStr);
-    expect(genCompare('.ini', outputFormats.plain)).toBe(expectedStr);
+    expect(genCompare('.yml', 'plain')).toBe(expectedStr);
+    expect(genCompare('.ini', 'plain')).toBe(expectedStr);
   });
 });
