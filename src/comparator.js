@@ -11,23 +11,23 @@ const isEqual = (a, b) => {
   return a === b;
 };
 
-const createComparedField = (prev, current) => {
-  const comparingField = { value: current, prev };
+const compareValues = (prev, current) => {
+  const compare = { value: current, prev };
   if (isEqual(prev, current)) {
-    comparingField.status = fieldStatuses.unmodified;
+    compare.status = fieldStatuses.unmodified;
   } else if (prev === undefined) {
-    comparingField.status = fieldStatuses.added;
+    compare.status = fieldStatuses.added;
   } else if (current === undefined) {
-    comparingField.status = fieldStatuses.deleted;
+    compare.status = fieldStatuses.deleted;
   } else {
-    comparingField.status = fieldStatuses.modified;
+    compare.status = fieldStatuses.modified;
   }
-  return comparingField;
+  return compare;
 };
 
 const compareData = (a, b) => {
   if (isComparable(a, b)) {
-    return createComparedField(a, b);
+    return compareValues(a, b);
   }
   const compare = {};
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
