@@ -1,11 +1,16 @@
-import { compareFiles } from './comparator.js';
+import fs from 'fs';
+import path from 'path';
+import compare from './comparator.js';
 import stylish from './formatters/stylish.js';
-import { outputFormats } from './shared.js';
 import plain from './formatters/plain.js';
+import parse from './parser';
+import { outputFormats } from './shared.js';
 
 
 const genDiff = (a, b, format = 'json') => {
-  const diff = compareFiles(a, b);
+  const data1 = parse(fs.readFileSync(path.resolve(a), 'utf-8'), path.extname(a));
+  const data2 = parse(fs.readFileSync(path.resolve(b), 'utf-8'), path.extname(b));
+  const diff = compare(data1, data2);
   if (format === outputFormats.plain) {
     return plain(diff);
   }

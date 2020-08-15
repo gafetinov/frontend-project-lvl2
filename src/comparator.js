@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import parse from './parser.js';
 import { types, getType, fieldStatuses } from './shared.js';
 
 const isArrays = (...values) => values.every((value) => getType(value) === types.array);
@@ -28,19 +25,16 @@ const createComparedField = (prev, current) => {
   return comparingField;
 };
 
-export const compareObjects = (a, b) => {
+const compareData = (a, b) => {
   if (isComparable(a, b)) {
     return createComparedField(a, b);
   }
   const compare = {};
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
   keys.forEach((key) => {
-    compare[key] = compareObjects(a[key], b[key]);
+    compare[key] = compareData(a[key], b[key]);
   });
   return { value: compare, status: fieldStatuses.deep };
 };
 
-export const compareFiles = (a, b) => compareObjects(
-  parse(fs.readFileSync(a, 'utf-8'), path.extname(a)),
-  parse(fs.readFileSync(b, 'utf-8'), path.extname(b)),
-);
+export default compareData;

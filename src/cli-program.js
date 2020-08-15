@@ -10,6 +10,6 @@ const init = () => new commander.Command()
 
 export default () => {
   const program = init();
-  const files = program.parse(process.argv).args;
-  console.log(genDiff(...files, program.format));
+  const filePaths = program.parse(process.argv).args;
+  console.log(genDiff(...filePaths, program.format));
 };
