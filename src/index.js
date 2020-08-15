@@ -3,7 +3,7 @@ import path from 'path';
 import compare from './comparator.js';
 import stylish from './formatters/stylish.js';
 import plain from './formatters/plain.js';
-import parse from './parser';
+import parse from './parser.js';
 import { outputFormats } from './shared.js';
 
 
