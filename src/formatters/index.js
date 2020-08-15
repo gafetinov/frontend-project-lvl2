@@ -1,7 +1,7 @@
 import plain from './plain.js';
 import stylish from './stylish.js';
 
-export default (data, format = 'json') => {
+export default (data, format) => {
   if (format === 'json') {
     return JSON.stringify(data, null, '  ');
   }
