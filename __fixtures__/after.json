@@ -5,13 +5,8 @@
     "unmodifiedArr": [1, 2],
     "addedArr": [3, 4],
     "addedObj": { "f": "f" },
-    "unmodifiedObj": { "c": "c" }
-  },
-  "arr1": [
-    {"a": 1, "b": 2},
-    [1, 2],
-    { "c": "c", "d": "d" },
-    [9, 16, 25],
-    "updated-value"
-  ]
+    "unmodifiedObj": { "c": "c" },
+    "modifiedObj": { "a": 1 },
+    "modifiedArr": [1]
+  }
 }

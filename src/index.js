@@ -1,28 +1,19 @@
-import { compareFiles } from './comparator.js';
-import cliProgram from './cli-program.js';
-import stylish from './formatters/stylish.js';
-import { outputFormats } from './shared.js';
-import plain from './formatters/plain.js';
+import fs from 'fs';
+import path from 'path';
+import compare from './comparator.js';
+import format from './formatters/index.js';
+import parse from './parser.js';
 
-
-const genDiff = (a, b, format = 'json') => {
-  const diff = compareFiles(a, b);
-  if (format === outputFormats.plain) {
-    return plain(diff);
-  }
-  if (format === outputFormats.json) {
-    return JSON.stringify(diff, null, '  ');
-  }
-  if (format === outputFormats.stylish) {
-    return stylish(diff);
-  }
-  throw new Error(`Unknown format ${format}`);
+const readFile = (filepath) => {
+  const fullPath = path.resolve(filepath);
+  return fs.readFileSync(fullPath, 'utf-8');
 };
 
-export const cli = () => {
-  const program = cliProgram();
-  const files = program.parse(process.argv).args;
-  console.log(genDiff(...files, program.format));
+const genDiff = (a, b, formatName = 'stylish') => {
+  const data1 = parse(readFile(a), path.extname(a));
+  const data2 = parse(readFile(b), path.extname(b));
+  const diff = compare(data1, data2);
+  return format(diff, formatName);
 };
 
 export default genDiff;

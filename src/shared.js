@@ -15,12 +15,5 @@ export const fieldStatuses = {
   modified: 'modified',
   unmodified: 'unmodified',
   deleted: 'deleted',
-  iterable: 'iterable',
   deep: 'deep',
-};
-
-export const outputFormats = {
-  stylish: 'stylish',
-  plain: 'plain',
-  json: 'json',
 };

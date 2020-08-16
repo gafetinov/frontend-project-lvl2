@@ -1,47 +1,40 @@
-import _ from 'lodash';
-import fs from 'fs';
-import path from 'path';
-import parse from './fileParser.js';
 import { types, getType, fieldStatuses } from './shared.js';
 
 const isArrays = (...values) => values.every((value) => getType(value) === types.array);
 const isFlats = (...values) => values.every((value) => getType(value) === types.flat);
 const isDifferentTypes = (a, b) => getType(a) !== getType(b);
-const isComparable = (a, b) => isFlats(a, b) || isDifferentTypes(a, b);
+const isComparable = (a, b) => isFlats(a, b) || isArrays(a, b) || isDifferentTypes(a, b);
+const areArraysEqual = (a, b) => !a.some((el, i) => el !== b[i]);
 
-const createComparedField = (prev, current) => {
-  const comparingField = { value: current, prev };
-  if (prev === current) {
-    comparingField.status = fieldStatuses.unmodified;
-  } else if (prev === undefined) {
-    comparingField.status = fieldStatuses.added;
-  } else if (current === undefined) {
-    comparingField.status = fieldStatuses.deleted;
-  } else {
-    comparingField.status = fieldStatuses.modified;
-  }
-  return comparingField;
+const isEqual = (a, b) => {
+  if (isArrays(a, b)) return areArraysEqual(a, b);
+  return a === b;
 };
 
-export const compareObjects = (a, b) => {
-  if (isArrays(a, b)) {
-    return {
-      value: _.range(Math.max(a.length, b.length)).map((i) => compareObjects(a[i], b[i])),
-      status: fieldStatuses.iterable,
-    };
+const compareValues = (prev, current) => {
+  const compare = { value: current, prev };
+  if (isEqual(prev, current)) {
+    compare.status = fieldStatuses.unmodified;
+  } else if (prev === undefined) {
+    compare.status = fieldStatuses.added;
+  } else if (current === undefined) {
+    compare.status = fieldStatuses.deleted;
+  } else {
+    compare.status = fieldStatuses.modified;
   }
+  return compare;
+};
+
+const compareData = (a, b) => {
   if (isComparable(a, b)) {
-    return createComparedField(a, b);
+    return compareValues(a, b);
   }
-  const compare = {};
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
-  keys.forEach((key) => {
-    compare[key] = compareObjects(a[key], b[key]);
-  });
+  const compare = keys.reduce((acc, key) => {
+    acc[key] = compareData(a[key], b[key]);
+    return acc;
+  }, {});
   return { value: compare, status: fieldStatuses.deep };
 };
 
-export const compareFiles = (a, b) => compareObjects(
-  parse(fs.readFileSync(a, 'utf-8'), path.extname(a)),
-  parse(fs.readFileSync(b, 'utf-8'), path.extname(b)),
-);
+export default compareData;

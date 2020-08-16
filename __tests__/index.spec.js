@@ -1,6 +1,6 @@
 import fs from 'fs';
 import genDiff from '../src';
-import { outputFormats } from '../src/shared.js';
+
 
 describe('compareFiles', () => {
   const genCompare = (fileNameEnd, outputFormat) => genDiff(
@@ -9,19 +9,18 @@ describe('compareFiles', () => {
     outputFormat,
   );
 
+  const getFixturePath = (fileName) => `${__dirname}/../__fixtures__/${fileName}`;
+  const readFile = (fileName) => fs.readFileSync(getFixturePath(fileName), 'utf-8');
+
   it('should display with different formats', () => {
-    const getExpectedString = (format = 'json') => fs.readFileSync(
-      `${__dirname}/../__fixtures__/${format}.txt`,
-      'utf-8',
-    );
-    expect(genCompare('.json')).toBe(getExpectedString());
-    expect(genCompare('.json', outputFormats.stylish)).toBe(getExpectedString(outputFormats.stylish));
-    expect(genCompare('.json', outputFormats.plain)).toBe(getExpectedString(outputFormats.plain));
+    expect(genCompare('.json')).toBe(readFile('stylish.txt'));
+    expect(genCompare('.json', 'json')).toBe(readFile('json.txt'));
+    expect(genCompare('.json', 'plain')).toBe(readFile('plain.txt'));
   });
 
   it('should compare files of other formats', () => {
     const expectedStr = "Property 'property' was updated. From 'old' to 'new'";
-    expect(genCompare('.yml', outputFormats.plain)).toBe(expectedStr);
-    expect(genCompare('.ini', outputFormats.plain)).toBe(expectedStr);
+    expect(genCompare('.yml', 'plain')).toBe(expectedStr);
+    expect(genCompare('.ini', 'plain')).toBe(expectedStr);
   });
 });
