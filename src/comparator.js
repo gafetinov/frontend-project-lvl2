@@ -29,11 +29,11 @@ const compareData = (a, b) => {
   if (isComparable(a, b)) {
     return compareValues(a, b);
   }
-  const compare = {};
   const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
-  keys.forEach((key) => {
-    compare[key] = compareData(a[key], b[key]);
-  });
+  const compare = keys.reduce((acc, key) => {
+    acc[key] = compareData(a[key], b[key]);
+    return acc;
+  }, {});
   return { value: compare, status: fieldStatuses.deep };
 };
 
