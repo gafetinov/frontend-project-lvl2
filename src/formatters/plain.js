@@ -31,14 +31,17 @@ const getCompareString = (path, compare) => {
   }
 };
 
-const plain = (compare, path = '') => {
-  const { value, status } = compare;
-  if (status !== fieldStatuses.deep) {
-    return getCompareString(path, compare);
-  }
-  return Object.keys(value)
-    .map((key) => plain(value[key], `${path}${path ? '.' : ''}${key}`))
-    .filter((x) => Boolean(x)).join('\n');
+const plain = (initialCompare) => {
+  const iter = (compare, path) => {
+    const { value, status } = compare;
+    if (status !== fieldStatuses.deep) {
+      return getCompareString(path, compare);
+    }
+    return Object.keys(value)
+      .map((key) => iter(value[key], `${path}${path ? '.' : ''}${key}`))
+      .filter((x) => Boolean(x)).join('\n');
+  };
+  return iter(initialCompare, '');
 };
 
 export default plain;
