@@ -1,4 +1,4 @@
-import { fieldStatuses } from '../shared.js';
+import { fieldStatuses } from '../comparator.js';
 
 const getValueString = (value) => {
   switch (typeof value) {

@@ -1,7 +1,15 @@
 import _ from 'lodash';
-import { fieldStatuses } from './shared.js';
+
 
 const areComparable = (a, b) => !(_.isObject(a) && _.isObject(b)) || _.isArray(a) || _.isArray(b);
+
+export const fieldStatuses = {
+  added: 'added',
+  modified: 'modified',
+  unmodified: 'unmodified',
+  deleted: 'deleted',
+  deep: 'deep',
+};
 
 const compareData = (a, b) => {
   const compare = { value: b, prev: a };

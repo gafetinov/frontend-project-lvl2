@@ -1,4 +1,5 @@
-import { fieldStatuses, getType, types } from '../shared.js';
+import _ from 'lodash';
+import { fieldStatuses } from '../comparator.js';
 
 
 const INDENT = 4;
@@ -7,12 +8,11 @@ const toStringLines = (initialValue, initialKey) => {
   const iter = (value, valueName, depth) => {
     const indent = ' '.repeat(depth * INDENT);
     const head = `${indent}${valueName}${valueName ? ': ' : ''}`;
-    const type = getType(value);
-    if (type === types.array) {
+    if (_.isArray(value)) {
       const content = value.join(', ');
       return [`${head}[${content}]`];
     }
-    if (type === types.object) {
+    if (_.isObject(value)) {
       const content = Object.keys(value)
         .map((key) => iter(value[key], key, depth + 1));
       const end = `${indent}}`;
