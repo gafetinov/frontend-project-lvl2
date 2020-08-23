@@ -3,12 +3,12 @@ import ini from 'ini';
 
 export default (str, format) => {
   switch (format) {
-    case '.json':
+    case 'json':
       return JSON.parse(str);
-    case '.yaml':
-    case '.yml':
+    case 'yaml':
+    case 'yml':
       return yaml.safeLoad(str);
-    case '.ini':
+    case 'ini':
       return ini.parse(str);
     default:
       throw new Error(`Format "${format}" not supported`);
