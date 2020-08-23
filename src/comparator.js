@@ -1,40 +1,26 @@
-import { types, getType, fieldStatuses } from './shared.js';
+import _ from 'lodash';
+import { fieldStatuses } from './shared.js';
 
-const isArrays = (...values) => values.every((value) => getType(value) === types.array);
-const isFlats = (...values) => values.every((value) => getType(value) === types.flat);
-const isDifferentTypes = (a, b) => getType(a) !== getType(b);
-const isComparable = (a, b) => isFlats(a, b) || isArrays(a, b) || isDifferentTypes(a, b);
-const areArraysEqual = (a, b) => !a.some((el, i) => el !== b[i]);
-
-const isEqual = (a, b) => {
-  if (isArrays(a, b)) return areArraysEqual(a, b);
-  return a === b;
-};
-
-const compareValues = (prev, current) => {
-  const compare = { value: current, prev };
-  if (isEqual(prev, current)) {
-    compare.status = fieldStatuses.unmodified;
-  } else if (prev === undefined) {
-    compare.status = fieldStatuses.added;
-  } else if (current === undefined) {
-    compare.status = fieldStatuses.deleted;
-  } else {
-    compare.status = fieldStatuses.modified;
-  }
-  return compare;
-};
+const areComparable = (a, b) => !(_.isObject(a) && _.isObject(b)) || _.isArray(a) || _.isArray(b);
 
 const compareData = (a, b) => {
-  if (isComparable(a, b)) {
-    return compareValues(a, b);
+  const compare = { value: b, prev: a };
+  if (a === undefined) {
+    compare.status = fieldStatuses.added;
+    return compare;
   }
-  const keys = [...new Set([...Object.keys(a), ...Object.keys(b)])];
-  const compare = keys.reduce((acc, key) => {
-    acc[key] = compareData(a[key], b[key]);
-    return acc;
-  }, {});
-  return { value: compare, status: fieldStatuses.deep };
+  if (b === undefined) {
+    compare.status = fieldStatuses.deleted;
+    return compare;
+  }
+  if (areComparable(a, b)) {
+    compare.status = _.isEqual(a, b) ? fieldStatuses.unmodified : fieldStatuses.modified;
+    return compare;
+  }
+  const keys = Object.keys({ ...a, ...b });
+  const valuesCompare = keys.map((key) => compareData(a[key], b[key]));
+  const deepCompare = _.zipObject(keys, valuesCompare);
+  return { value: deepCompare, status: fieldStatuses.deep };
 };
 
 export default compareData;
